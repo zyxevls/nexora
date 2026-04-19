@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 
+	"nexora/internal/model"
+
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -26,6 +28,11 @@ func InitDB() {
 	}
 
 	DB = db
+
+	err = db.AutoMigrate(&model.User{}, &model.Cart{}, &model.CartItem{}, &model.Product{})
+	if err != nil {
+		log.Fatal("Failed to auto migrate database")
+	}
 
 	log.Println("Database connection established")
 }
